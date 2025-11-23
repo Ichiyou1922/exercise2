@@ -1,0 +1,60 @@
+#!/usr/bin/python3
+
+class ElementaryCA:
+    # 変わらない定数を設定, widthは世界の広さ(bit数)
+    def __init__(self, rule, width):
+        self.rule = rule
+        self.width = width
+
+    def step(self, state): # stateは全セルの状態を表す．
+        next_state = 0
+        # 現在のstateを3つの変数にコピーしてずらす．周期的境界条件も考慮する．
+        left = (state << 1) | (state >> (self.width - 1)) # 全てのセルにとっての左側の状況
+        center = state
+        right = (state >> 1) | (state << (self.width - 1))
+        # 周期境界条件
+        for k in range(8):
+            # k=5 (101) -> (left) & (~center) & (ritht)を作りたい
+            
+            # 左隣の条件
+            if (k >> 2) & 1 == 1: # 1桁目以外は全て0 -> 2桁目の判定ができる 
+                m_left = left
+            else:
+                m_left = ~left
+
+            # 中心の条件
+            if (k >> 1) & 1 == 1:
+                m_center = center
+            else:
+                m_center = ~center
+
+            # 右隣の条件
+            if (k >> 0) & 1 == 1:
+                m_right = right
+            else:
+                m_right = ~right
+
+            # 全ての条件を満たす場所を特定
+            pattern_mask = m_left & m_center & m_right
+
+            # ruleのk桁目が1ならマスクで立っているところは全て立つ．
+            if (self.rule >> k) & 1 == 1: # ruleのk桁目の判定
+                next_state = next_state | pattern_mask # pattern kをnext_stateに追加
+
+        return next_state & ((1 << self.width) - 1)
+
+    def display(self, state):
+        print(format(state, f'0{self.width}b').replace('0', ' ').replace('1', '#'))
+
+if __name__ == "__main__":
+    width = 64
+    rule = 90
+    ca = ElementaryCA(rule, width)
+
+    # 初期状態
+    state = 1 << (width // 2)
+
+    print(f"Rule: {rule}")
+    for _ in range(32): # 1行目は中心のみ立つ．2行目以降は...
+        ca.display(state)
+        state = ca.step(state)
