@@ -1,0 +1,2 @@
+Hello, C File system!
+Number: 42
