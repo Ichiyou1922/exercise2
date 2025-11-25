@@ -28,3 +28,7 @@ int add(int a, int b){ return a + b; }
 //add関数をfunc_ptrに格納するための宣言
 int (*func_ptr)(int, int);
 ```
+- main関数内のロジックを変更することなく，動作を切り替えられる．->Strategyパターン．
+
+- コールバック
+  
