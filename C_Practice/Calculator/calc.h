@@ -1,8 +1,8 @@
 /* calc.h */
 
-//インクルードガード
-#ifndef CALC_H //もしCALC_Hが未定義ならば
-#define CALC_H //定義して以下を読む
+// インクルードガード
+#ifndef CALC_H
+#define CALC_H
 
 typedef struct {
   int value;
@@ -12,4 +12,3 @@ typedef struct {
 Result safe_divide(int a, int b);
 
 #endif
-
