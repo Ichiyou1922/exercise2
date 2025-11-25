@@ -1,10 +1,9 @@
 # exercise2
 プログラミング練習用のリポジトリの2番目
 
-- fopen-close
-  - stdin-outの練習
+## C_Practice 
+- C言語の練習用
 
-- my_cat 
-  - catコマンドの自作．
-  - fgetsを使う練習
-  - fgetsによって，ファイルの中身を表示する．
+## Complex_Systems
+- 複雑系に関しての勉強
+
