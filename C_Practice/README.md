@@ -31,4 +31,74 @@ int (*func_ptr)(int, int);
 - main関数内のロジックを変更することなく，動作を切り替えられる．->Strategyパターン．
 
 - コールバック
-  
+  - qsortで実験
+  - qsortには比較関数のポインタを渡す必要がある．
+    - この時に関数ポインタで自分の作った処理を渡す必要がある．
+    - 比較関数の引数はconst void *
+    - 値の比較には引数をint型に直す必要がある．
+    - val_a = *(int *)a;
+    1. a: const void * 型．謎のアドレス．
+    2. (int * )a: const int * 型．住所にどんな型(方)が住んでいるのか(今回はint)を伝える．
+    3. * ( ): 2.の住所に行って値を読みだす．
+
+## 連結リスト(Linked list)
+- arrayの途中に新しい要素を追加したいとき，その後ろの要素を全てずらす必要があるのだろうか？
+  - これを解決するのがポインタと構造体とmallocを組み合わせた自己参照構造体(連結リスト)．
+1. リストの各要素をノードとする．自分のデータと次のノードのデータを持つ．
+```c
+typedef struct Node{
+    int data;
+    struct Node *next;
+  }Node;
+```
+
+2. ノードの作成と連結
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node{
+    int data; //自分のデータと
+    struct Node *next; //次のノードのデータ
+  }Node;
+
+Node* create_node(int data) {
+    Node *new_node = (Node *)malloc(sizeof(Node));
+    if (new_node == NULL) exit(1);
+
+    new_node->data = data;
+    new_node->next = NULL;
+    return new_node;
+  }
+
+  int main(void) {
+      Node *head = create_node(10);
+
+      Node *second = create_node(20);
+
+      head->next = second;
+      
+      second->next = create_node(30);
+
+      return 0;
+    }
+```
+
+3. リストの走査
+- nextポインタをたどるしかない．arr[i]のようにはいかない．
+
+```c
+void print_list(Node *head) {
+  Node *current = head;
+  Node *temp;
+  while (current != NULL) {
+    temp = current->next; //次の行き先を避難させる
+    free(current); //現在のノードを解放
+    current = current->next;
+  }
+  print("NULL\n")
+}
+
+```
+
+
