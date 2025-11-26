@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -wall -Wextra
 
 app: main.o list.o file.o
-	$(CC) $(CFLAGS) -o app main.o list.o file.o
+	$(CC) $(CFLAGS) -o todo_app main.o list.o file.o
 
 main.o: main.c list.h file.h
 	$(CC) $(CFLAGS) -c main.c
