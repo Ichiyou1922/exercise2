@@ -25,8 +25,6 @@ Task *load_tasks(const char *filename) {
     return NULL;
   }
 
-  int max_range = sizeof(buf) - 1;
-
   while (fgets(buf, sizeof(buf), fp) != NULL) {
     buf[strcspn(buf, "\n")] = '\0';
     Task *new_task = create_task(id, buf);
